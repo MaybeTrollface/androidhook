@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AndroidJS</title>
+
+
+  <style>
+
+@import url('https://fonts.googleapis.com/css2?family=DynaPuff&family=Lato&display=swap');
+    body {
+      text-align: center;
+      background-color: #404141;
+      font-family: 'DynaPuff', cursive;
+      color: #9DA1A1
+    }
+
+
+    input[type=text] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      background-color: gray;
+      text-align: center;
+    }
+
+    input[type=submit] {
+      background-color: gray;
+      border: none;
+      color: white;
+      padding: 16px 32px;
+      font-family: 'DynaPuff', cursive;
+      margin: 4px 2px;
+      cursor: pointer;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h1>AndroidHook</h1>
+  <form id="webhookConfig">
+    <label for="webhookurl">webhook url:</label><br>
+    <input type="text" id="webhookurl" name="webhookurl"><br>
+    <label for="webhookusername">webhook username:</label><br>
+    <input type="text" id="webhookusername" name="webhookusername"><br>
+    <label for="message">message:</label><br>
+    <input type="text" id="message" name="message">
+    <br />
+    <input type="submit" onclick="sendMSG()" value="Submit">
+
+    <script>
+
+
+
+      var form1 = document.getElementById('webhookConfig');
+      var webhookurl = form1.elements['webhookurl']
+      var webhookusername = form1.elements['webhookusername']
+      var message = form1.elements['message']
+
+      async function postData(url = '', data = {}) {
+  // Default options are marked with *
+  const response = await fetch(url, {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json'
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: 'follow', // manual, *follow, error
+    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: JSON.stringify(data) // body data type must match "Content-Type" header
+  });
+  return response.json(); // parses JSON response into native JavaScript objects
+  app.notification.init("AndroidHook", "Sent");
+  app.notification.show(1);
+}
+
+
+
+form1.addEventListener("submit", function (event) {
+  alert(message.value)
+})
+
+  var msg = message.value + ' - Sent from AndroidHook 🥶'
+  function sendMSG() {
+  postData(webhookurl.value, { content: message.value, username: webhookusername.value})
+    .then((data) => {
+    alert(data); // JSON data parsed by `data.json()` call
+  })
+}
+
+
+//https://discord.com/api/webhooks/1009989121386741760/Usgylb0ZHNNYkaNeLFnMPWghSwjLbfDsqiAxkNBmbXl-l-r9lGqgOs1AJ0YqBnMeRjGI
+
+      
+    </script>
+  </form>
+</body>
+</html>
